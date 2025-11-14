@@ -1,56 +1,86 @@
 import 'package:flutter/material.dart';
 
 class DetailPage extends StatelessWidget {
-  final String itemTitle;
-  const DetailPage({super.key, required this.itemTitle});
+  final String name;
+  final String imagePath;
+  final String description;
+  final double price;
 
-  String getImage (String title){
-    String titleClean = title.replaceAll(' ', '').replaceAll('-', '').toLowerCase();
-
-    if (titleClean.contains('laptop')) return 'laptop.jpg';
-    if (titleClean.contains('hp')) return 'iphone.jpg';
-    if (titleClean.contains('tv')) return 'tv.jpg';
-    if (titleClean.contains('watch')) return 'watch.png';
-    if (titleClean.contains('tablet')) return 'matepad.jpg';
-  
-    return 'default.jpg';
-
-  }
+  const DetailPage({
+    super.key,
+    required this.name,
+    required this.imagePath,
+    required this.description,
+    required this.price,
+  });
 
   @override
   Widget build(BuildContext context) {
-      final String Imagename = getImage(itemTitle);
-      final String imagePath ='images/$Imagename';
-
     return Scaffold(
-      appBar:AppBar(
-        title: Text("ItemTitle"),
-        backgroundColor: Colors.indigo,
-        foregroundColor: const Color.fromARGB(255, 34, 0, 0),
+      appBar: AppBar(
+        title: Text(name),
+        backgroundColor: Colors.blueAccent,
       ),
-      body: Center(
-        child: Column(    
-          mainAxisAlignment: MainAxisAlignment.center,
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          Image.asset(
-            imagePath,
-            width: 200,
-            height: 200,
-          ),
-            Text(
-              "Ini Adalah Halaman Detail Untuk : ",
-              style: Theme.of(context).textTheme.titleLarge,
-              ),
-              SizedBox(height: 16,),
-              Text(
-                itemTitle,
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
+            // Gambar produk
+            Center(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.network(
+                  imagePath,
+                  width: double.infinity,
+                  height: 250,
+                  fit: BoxFit.contain,
                 ),
               ),
+            ),
+
+            const SizedBox(height: 20),
+
+            // Nama Produk
+            Text(
+              name,
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            // Harga
+            Text(
+              "Rp ${price.toStringAsFixed(0)}",
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w700,
+                color: Colors.green,
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            const Text(
+              "Deskripsi Produk",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 8),
+
+            Text(
+              description,
+              style: const TextStyle(fontSize: 16),
+            ),
           ],
         ),
       ),
-      );
+    );
   }
 }
